@@ -4,22 +4,25 @@ import './App.css'
 const Theme = React.createContext('yellow')
 function Button(props) {
   return(
+    <Theme.Consumer>
+      {
+        (theme)=> (
+        <button onClick={theme.setTheme}
+                className={theme.color}>
+        {theme.color}
+      </button>)
+      }
+    </Theme.Consumer>
 
-      <button onClick={props.theme.setTheme}
-              className={props.theme.color}>
-        {props.theme.color}
-      </button>
   )
 
 }
 class Box extends React.Component{
-  static contextType = Theme;
   render() {
     return(
       <div >
-        <Button theme={this.context} />
+        <Button />
         <div>{this.props.children}</div>
-
       </div>
     )
   }
@@ -51,8 +54,6 @@ class App extends React.Component{
               }
             )
           }
-
-
         }
       }
     }
