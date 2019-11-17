@@ -22,7 +22,6 @@ class Box extends React.Component{
     return(
       <div >
         <Button />
-        <div>{this.props.children}</div>
       </div>
     )
   }
@@ -62,7 +61,6 @@ class App extends React.Component{
     return (
         <Theme.Provider  value={this.state.theme}>
           <Box>
-            <button>我是props.children</button>
           </Box>
         </Theme.Provider >
     )
