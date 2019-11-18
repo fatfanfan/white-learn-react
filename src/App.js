@@ -1,74 +1,83 @@
-import React from 'react'
-import './App.css'
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useParams,
+  useRouteMatch
+} from "react-router-dom";
 
-const Theme = React.createContext('yellow')
-function Button(props) {
+function Welcome() {
+  return <div>Welcome</div>
+}
+function Home() {
+  return <div>Home</div>
+}
+function About() {
+  let match = useRouteMatch(0);
   return(
-    <Theme.Consumer>
-      {
-        (theme)=> (
-        <button onClick={theme.setTheme}
-                className={theme.color}>
-        {theme.color}
-      </button>)
-      }
-    </Theme.Consumer>
 
+    <div>
+      <h2>Topics</h2>
+
+      <ul>
+        <li>
+          <Link to={`${match.url}/components`}>Components</Link>
+        </li>
+        <li>
+          <Link to={`${match.url}/props-v-state`}>
+            Props v. State
+          </Link>
+        </li>
+      </ul>
+
+ 
   )
 
+
+      <Switch>
+        <Route path={`${match.path}/:Id`}>
+          <Topic />
+        </Route>
+        <Route path={match.path}>
+          <h3>Please select a topic.</h3>
+        </Route>
+      </Switch>
+    </div>
+  )
 }
-class Box extends React.Component{
-  render() {
-    return(
-      <div >
-        <Button />
+
+function Topic() {
+  let { Id } = useParams();
+  return <div>{ Id }</div>
+
+}
+export default function App() {
+  return(
+    <Router>
+      <div>
+        <ul>
+          <li><Link to="/">Home</Link></li>
+          <li><Link to="/welcome">welcome</Link></li>
+          <li><Link to="/about">about</Link></li>
+        </ul>
+
+
+
+        <Switch>
+          <Route path="/about">
+            <About />
+          </Route>
+          <Route path="/welcome">
+            <Welcome />
+          </Route>
+          <Route path="/">
+            <Home />
+          </Route>
+        </Switch>
       </div>
-    )
-  }
+
+    </Router>
+  )
 }
-
-class App extends React.Component{
-  constructor(props){
-    super(props)
-    this.state = {
-      theme: {
-        color: "red",
-        setTheme: (color)=> {
-          console.log("被调用了")
-          console.log(this.state)
-          if(this.state.theme.color === "red"){
-            this.setState({
-                theme: {
-                  ...this.state.theme,
-                  color: "yellow"
-                }
-              }
-            )
-          }else {
-            this.setState({
-                theme: {
-                  ...this.state.theme,
-                  color: "red"
-                }
-              }
-            )
-          }
-        }
-      }
-    }
-  }
-  render() {
-    return (
-        <Theme.Provider  value={this.state.theme}>
-          <Box>
-          </Box>
-        </Theme.Provider >
-    )
-  }
-}
-
-
-export  default App
-
-
-
