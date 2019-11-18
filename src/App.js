@@ -17,6 +17,7 @@ function Home() {
 function About() {
   let match = useRouteMatch(0);
   return(
+
     <div>
       <h2>Topics</h2>
 
@@ -31,6 +32,10 @@ function About() {
         </li>
       </ul>
 
+ 
+  )
+
+
       <Switch>
         <Route path={`${match.path}/:Id`}>
           <Topic />
@@ -42,9 +47,11 @@ function About() {
     </div>
   )
 }
+
 function Topic() {
   let { Id } = useParams();
   return <div>{ Id }</div>
+
 }
 export default function App() {
   return(
@@ -55,6 +62,7 @@ export default function App() {
           <li><Link to="/welcome">welcome</Link></li>
           <li><Link to="/about">about</Link></li>
         </ul>
+
 
 
         <Switch>
